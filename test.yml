@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapp
+  name: myapp2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: myapp
+      app: myapp2
   template:
     metadata:
       labels:
-        app: myapp
+        app: myapp2
     spec:
       containers:
-      - name: myapp
+      - name: myapp2
         image: ilovesnows/keduitlab:yellow
         ports:
         - containerPort: 80
@@ -23,10 +23,10 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: myapp-loadbalancer  # 서비스 이름을 수정
+  name: myapp2-loadbalancer  # 서비스 이름을 수정
 spec:
   selector:
-    app: myapp  # 이 라벨과 일치하는 Pod를 선택
+    app: myapp2  # 이 라벨과 일치하는 Pod를 선택
   type: LoadBalancer
   ports:
   - name: http  # 포트 이름도 유효한 형식으로 수정
