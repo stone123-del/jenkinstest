@@ -3,23 +3,22 @@ pipeline {
   stages {
     stage('git scm update') {
       steps {
-        git url: 'https://github.com/stone123-del/jenkinstest.git', branch: 'master'
+        git url: 'https://github.com/beomtaek78/jenkinstest.git', branch: 'main'
       }
     }
-    stage('docker build and push') { 
+    stage('delivery and deployment') {
       steps {
         sh '''
-        sudo docker build -t ilovesnows/keduit:puple .
-        sudo docker push ilovesnows/keduit:puple
-        '''
-      }
-    }
-    stage('deploy and service') {
-      steps {
-        sh '''
-        sudo kubectl apply -f test.yml
+        ansible master -m copy -a "src=testpod.yml dest=/root/testpod.yml" --become
+        now=$(date +%y%m%d%H%M)
+        sudo docker build -t brian24/keduitlab:${now} .
+        sudo docker push brian24/keduitlab:${now}
+        ansible node -m shell -a "sudo docker pull brian24/keduitlab:${now}"
+        ansible master -m shell -a "sudo kubectl create deploy web-${now} --replicas=3 --port=80 --image=brian24/keduitlab:${now}"
+        ansible master -m shell -a "sudo kubectl expose deploy web-${now} --type=LoadBalancer --port=80 --target-port=80 --name=web-${now}-svc"
         '''
       }
     }
   }
 }
+
