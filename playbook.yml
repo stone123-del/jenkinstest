@@ -1,0 +1,15 @@
+---
+- name: 서버 설정 플레이북
+  hosts: all
+  become: yes
+  tasks:
+    - name: 패키지 설치
+      yum:
+        name: nginx
+        state: present
+
+- name: Nginx 서비스 시작
+  service:
+    name: nginx
+    state: started
+    enabled: yes
