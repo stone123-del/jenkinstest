@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: ilovesnows/keduit:yellow
+        image: ilovesnows/keduitlab:red
         ports:
         - containerPort: 80
 ---
