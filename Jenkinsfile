@@ -11,7 +11,7 @@ pipeline {
         sh '''
         ansible master -m copy -a "src=testpod.yml dest=/root/testpod.yml" --becom
         sudo docker build -t ilovesnows/keduitlab:red
-        sudo docker push ilovesnows/keduitlab:${now}
+        sudo docker push ilovesnows/keduitlab:red
         '''
       }
     }
