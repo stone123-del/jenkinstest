@@ -1,33 +1,37 @@
-# 예시: deployment.yml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-deployment
+  name: myapp
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: my-app
+      app: myapp
   template:
     metadata:
       labels:
-        app: my-app
+        app: myapp
     spec:
       containers:
-      - name: my-container
+      - name: myapp
         image: nginx
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
 
 ---
 
-apiVersion: v1
 kind: Service
+apiVersion: v1
 metadata:
-  name: my-service
-  namespace: default
+  name:  LoadBalancer
 spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
-    targetPort: 80
   selector:
-    app: my-app
+    app:  myapp
+  type:  LoadBalancer
+  ports:
+  - name:  port
+    port:  80
+    targetPort:  8080
