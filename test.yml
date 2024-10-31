@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: myapp
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: myapp
@@ -13,11 +14,7 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: nginx
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+        image: ilovesnows/keduitlab:yellow
         ports:
         - containerPort: 80
 
@@ -26,12 +23,12 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name:  LoadBalancer
+  name: myapp-loadbalancer  # 서비스 이름을 수정
 spec:
   selector:
-    app:  myapp
-  type:  LoadBalancer
+    app: myapp  # 이 라벨과 일치하는 Pod를 선택
+  type: LoadBalancer
   ports:
-  - name:  port
-    port:  80
-    targetPort:  8080
+  - name: http  # 포트 이름도 유효한 형식으로 수정
+    port: 80
+    targetPort: 80
