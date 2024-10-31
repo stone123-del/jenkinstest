@@ -9,9 +9,8 @@ pipeline {
     stage('delivery and deployment') {
       steps {
         sh '''
-        ansible master -m copy -a "src=testpod.yml dest=/root/testpod.yml" --become
-        now=$(date +%y%m%d%H%M)
-        sudo docker build -t ilovesnows/keduitlab:${now} .
+        ansible master -m copy -a "src=testpod.yml dest=/root/testpod.yml" --becom
+        sudo docker build -t ilovesnows/keduitlab:red
         sudo docker push ilovesnows/keduitlab:${now}
         '''
       }
