@@ -9,7 +9,7 @@ pipeline {
     stage('delivery and deployment') {
       steps {
         sh '''
-        ansible master -m copy -a "src=testpod.yml dest=/root/testpod.yml" --become
+        sudo ansible master -m copy -a "src=testpod.yml dest=/root/testpod.yml" --become
         sudo docker build -t ilovesnows/keduitlab:red .
         sudo docker push ilovesnows/keduitlab:red
         sudo ansible node -m shell -a "sudo docker pull ilovesnows/keduitlab:red"
